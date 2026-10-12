@@ -3,6 +3,7 @@ import DuplicateWarning from "@/components/Form/DuplicateWarning/DuplicateWarnin
 import EmailVerificationNotice from "@/components/Form/EmailVerificationNotice/EmailVerificationNotice";
 import IncidentCreatedNotice from "@/components/Form/IncidentCreatedNotice/IncidentCreatedNotice";
 import SubmitIncident from "@/components/Form/SubmitIncident/SubmitIncident";
+import HeaderLocation from "@/components/HeaderLocation/HeaderLocation";
 import Icon from "@/components/Icon/Icon";
 import DetailsStep from "@/pages/IncidentForm/DetailsStep";
 import IncidentFormSkeleton from "@/pages/IncidentForm/IncidentFormSkeleton";
@@ -69,6 +70,7 @@ export default function IncidentForm() {
 					aria-hidden="true"
 					className="absolute inset-0 -z-10 h-full w-full object-cover opacity-70 mix-blend-multiply"
 				/>
+				<HeaderLocation bottomClass="bottom-24" />
 				<h1 className="font-title text-2xl font-bold text-accent">
 					Nouveau signalement
 				</h1>

@@ -5,6 +5,7 @@ import bgHome from "@/assets/images/background-home.jpg";
 import VigieLogo from "@/assets/images/vigie-ligne.svg?react";
 import EmailVerificationBanner from "@/components/EmailVerificationBanner/EmailVerificationBanner";
 import FlashToast from "@/components/FlashToast/FlashToast";
+import HeaderLocation from "@/components/HeaderLocation/HeaderLocation";
 import Icon from "@/components/Icon/Icon";
 import { IncidentSearchField } from "@/components/IncidentList/IncidentFilters";
 import IncidentList from "@/components/IncidentList/IncidentList";
@@ -231,6 +232,7 @@ export default function Home() {
 					aria-hidden="true"
 					className="absolute inset-0 -z-10 h-full w-full object-cover opacity-70 mix-blend-multiply"
 				/>
+				<HeaderLocation />
 				<h1>
 					<VigieLogo
 						role="img"
