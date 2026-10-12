@@ -18,6 +18,7 @@ import usefulPlaceActions from "./modules/usefulPlace/usefulPlaceActions";
 import usersActions from "./modules/users/usersActions";
 import vigilanceActions from "./modules/vigilance/vigilanceActions";
 import attachUserIfPresent from "./services/attachUserIfPresent";
+import checkAddressReverseRateLimit from "./services/checkAddressReverseRateLimit";
 import checkAddressSearchRateLimit from "./services/checkAddressSearchRateLimit";
 import checkIncidentRateLimit from "./services/checkIncidentRateLimit";
 import checkRegisterRateLimit from "./services/checkRegisterRateLimit";
@@ -123,7 +124,13 @@ router.delete(
 	pushSubscriptionActions.destroy,
 );
 
-router.get("/api/addresses/reverse", verifyToken, addressActions.reverse);
+// Publique (comme /search) : le header de l'accueil affiche la commune de
+// l'appareil aussi pour un visiteur non connecté.
+router.get(
+	"/api/addresses/reverse",
+	checkAddressReverseRateLimit,
+	addressActions.reverse,
+);
 router.get(
 	"/api/addresses/search",
 	checkAddressSearchRateLimit,

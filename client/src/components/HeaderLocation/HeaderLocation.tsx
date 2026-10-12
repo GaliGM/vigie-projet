@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 
-import { useDeviceLocation } from "@/pages/Home/useDeviceLocation";
+import type { DeviceLocation } from "@/pages/Home/useDeviceLocation";
 import { reverseGeocode } from "@/services/addressService";
 
 // Commune de l'appareil (« Alès (30100) »), à droite d'un header `relative`.
 // Pas de position, pas de commune (forêt, campagne : la BAN n'en renvoie pas) ou
 // échec réseau : on n'affiche rien plutôt qu'un texte d'erreur dans le header.
 // Positionné à la hauteur du logo de Home (header pb-16).
-export default function HeaderLocation() {
-	const deviceLocation = useDeviceLocation();
+export default function HeaderLocation({
+	deviceLocation,
+}: {
+	deviceLocation: DeviceLocation;
+}) {
 	const [label, setLabel] = useState<string | null>(null);
 
 	const lat =
