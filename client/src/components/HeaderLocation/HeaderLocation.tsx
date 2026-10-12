@@ -6,12 +6,8 @@ import { reverseGeocode } from "@/services/addressService";
 // Commune de l'appareil (« Alès (30100) »), à droite d'un header `relative`.
 // Pas de position, pas de commune (forêt, campagne : la BAN n'en renvoie pas) ou
 // échec réseau : on n'affiche rien plutôt qu'un texte d'erreur dans le header.
-// `bottomClass` règle la hauteur : par défaut à celle du logo de Home (header pb-16).
-export default function HeaderLocation({
-	bottomClass = "bottom-18",
-}: {
-	bottomClass?: string;
-}) {
+// Positionné à la hauteur du logo de Home (header pb-16).
+export default function HeaderLocation() {
 	const deviceLocation = useDeviceLocation();
 	const [label, setLabel] = useState<string | null>(null);
 
@@ -41,9 +37,7 @@ export default function HeaderLocation({
 	if (label == null) return null;
 
 	return (
-		<p
-			className={`absolute right-4 text-xs font-bold tracking-wide text-accent ${bottomClass}`}
-		>
+		<p className="absolute right-4 bottom-18 text-xs font-bold tracking-wide text-accent">
 			{label}
 		</p>
 	);
