@@ -122,7 +122,38 @@ export type Vigilance = {
 	endTime: string | null;
 };
 
+// Démo / tests manuels : `VIGILANCE_FAKE=77:orange:storms,wind` force une vigilance
+// (département:niveau[:phénomènes]) sans appeler Météo-France. Absent = comportement normal.
+export function fakeVigilance(
+	department: string,
+	spec = process.env.VIGILANCE_FAKE,
+): Vigilance | null {
+	if (!spec) return null;
+
+	const [fakeDepartment, fakeLevel, fakePhenomena = ""] = spec.split(":");
+	const level = (["yellow", "orange", "red"] as const).find(
+		(name) => name === fakeLevel,
+	);
+	if (fakeDepartment !== department || level == null) return null;
+
+	const known = new Set<string>(PHENOMENA.values());
+	const phenomena = fakePhenomena
+		.split(",")
+		.filter((name): name is Phenomenon => known.has(name));
+
+	const now = Date.now();
+	return {
+		level,
+		updatedAt: new Date(now).toISOString(),
+		phenomena,
+		endTime: new Date(now + 6 * 60 * 60 * 1000).toISOString(),
+	};
+}
+
 async function getVigilance(department: string): Promise<Vigilance | null> {
+	const fake = fakeVigilance(department);
+	if (fake != null) return fake;
+
 	try {
 		const res = await fetch(VIGILANCE_URL, {
 			headers: { apikey: process.env.METEO_API_KEY ?? "" },

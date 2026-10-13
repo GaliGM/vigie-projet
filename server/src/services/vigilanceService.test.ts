@@ -1,4 +1,8 @@
-import { detailsFromMap, levelFromMap } from "./vigilanceService";
+import {
+	detailsFromMap,
+	fakeVigilance,
+	levelFromMap,
+} from "./vigilanceService";
 
 // Extrait minimal de la vraie réponse Météo-France.
 const map = {
@@ -211,5 +215,24 @@ describe("detailsFromMap", () => {
 		const empty = { phenomena: [], endTime: null };
 		expect(detailsFromMap(null, "13")).toStrictEqual(empty);
 		expect(detailsFromMap({}, "13")).toStrictEqual(empty);
+	});
+});
+
+describe("fakeVigilance", () => {
+	it("ne fait rien sans variable ou pour un autre département", () => {
+		expect(fakeVigilance("77", undefined)).toBeNull();
+		expect(fakeVigilance("68", "77:orange:storms")).toBeNull();
+	});
+
+	it("ignore un niveau inconnu", () => {
+		expect(fakeVigilance("77", "77:purple")).toBeNull();
+	});
+
+	it("renvoie le niveau et les phénomènes connus du département", () => {
+		const fake = fakeVigilance("77", "77:orange:storms,nope,wind");
+
+		expect(fake?.level).toBe("orange");
+		expect(fake?.phenomena).toEqual(["storms", "wind"]);
+		expect(fake?.endTime).not.toBeNull();
 	});
 });
